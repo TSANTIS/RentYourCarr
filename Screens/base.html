@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RentYourCar</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            background-color: #007bff;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-left, .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .navbar a.logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .container {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-left">
+            <a href="{% url 'home' %}" class="logo">🚗 RentYourCar</a>
+        </div>
+        <div class="navbar-right">
+            {% if user.is_authenticated %}
+                <span>Welcome, {{ user.username }}</span>
+                <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'register' %}">Register</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
