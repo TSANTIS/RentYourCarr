@@ -1,0 +1,81 @@
+{% extends 'carss/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .page-title {
+        text-align: center;
+        font-size: 2em;
+        margin-bottom: 30px;
+    }
+
+    .car-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+    }
+
+    .car-card {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.2s ease;
+    }
+
+    .car-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .car-image {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+    }
+
+    .car-content {
+        padding: 15px;
+    }
+
+    .car-content h3 {
+        margin: 0 0 10px;
+        font-size: 1.2em;
+    }
+
+    .car-content p {
+        margin: 5px 0;
+        color: #555;
+    }
+
+    .no-cars {
+        text-align: center;
+        color: #888;
+        margin-top: 50px;
+        font-size: 1.2em;
+    }
+</style>
+
+<h1 class="page-title">Available Cars for Rent</h1>
+{% load static %}
+{% if cars %}
+    <div class="car-grid">
+        {% for car in cars %}
+            <div class="car-card">
+                {% if car.image %}
+                    <img src="{{ car.image.url }}" alt="Car image" class="car-image">
+                {% else %}
+                    <img src="{% static 'images/default-car.jpg' %}" alt="No image" class="car-image">
+                {% endif %}
+                <div class="car-content">
+                    <h3>{{ car.make }} {{ car.model }} ({{ car.year }})</h3>
+                    <p><strong>Location:</strong> {{ car.location }}</p>
+                    <p><strong>Price:</strong> ${{ car.price_per_day }} / day</p>
+                    <p>{{ car.description|truncatechars:100 }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="no-cars">No cars available at the moment. Please check back later!</p>
+{% endif %}
+{% endblock %}
